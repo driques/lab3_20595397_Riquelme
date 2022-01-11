@@ -10,16 +10,11 @@ package ProyectoParadigmasPOO;
  * @author driques
  */
 public class Main {
-    //
-    public static void holaMundo(){
-    String a = "Hola Mundo";
-    }
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String[] args) {
-        User nuevoUsuario = new User (1,"driques","password123");
-        System.out.println(nuevoUsuario.getUsername());    
+        User nuevoUsuario = new User ("driques","password123");
+        System.out.println(nuevoUsuario.getUsername()); 
+        System.out.println(nuevoUsuario.getDate()); 
    
     }
     
