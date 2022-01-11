@@ -4,7 +4,9 @@ apply plugin: 'application'
 
 
 mainClassName = 'ProyectoParadigmasPOO.Main'
-
+run {
+    standardInput = System.in
+}
 repositories {
     jcenter()
 }

@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class User {
     // Representación
-    //  username, password, fecha de registro
+    // username, password, fecha de registro
   
     private String username;
     private String password;
@@ -36,4 +36,8 @@ public class User {
         return this.date;}
     
     
+   /* public boolean isLogin(){
+        null;
+            }
+    */
 }
