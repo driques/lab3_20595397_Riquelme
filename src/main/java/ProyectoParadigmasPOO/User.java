@@ -14,18 +14,23 @@ import java.util.Date;
  */
 public class User {
     // Representación
-    // username, password, fecha de registro
+    // idUser,username, password, fecha de registro
   
+    private int idUser;
     private String username;
     private String password;
     private Date date; // fecha de registro
 
-    public User (String userNameIn,String pass){
-       
+    public User (int id,String userNameIn,String pass){
+        this.idUser = id;
         this.username = userNameIn;
         this.password = pass;
         this.date = new Date();
     
+    }
+
+    User(String driques, String password123) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     // Getters
     public String getUsername(){
