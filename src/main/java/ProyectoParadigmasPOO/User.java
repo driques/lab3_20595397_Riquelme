@@ -6,6 +6,7 @@
 package ProyectoParadigmasPOO;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -16,27 +17,31 @@ public class User {
     // Representación
     // idUser,username, password, fecha de registro
   
-    private int idUser;
-    private String username;
-    private String password;
+    private final int idUser;
+    private final String username;
+    private final String password;
     private Date date; // fecha de registro
+    private ArrayList<Document> docs;
 
     public User (int id,String userNameIn,String pass){
         this.idUser = id;
         this.username = userNameIn;
         this.password = pass;
         this.date = new Date();
+        this.docs = new ArrayList<Document>();
     
     }
 
-    User(String driques, String password123) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     // Getters
+    public int getId(){
+        return this.idUser;}
     public String getUsername(){
         return this.username;}
     public String getPassword(){
         return this.password;}
+    public ArrayList<Document> getDocs(){
+        return this.docs;
+    }
     public Date getDate(){
         return this.date;}
     
