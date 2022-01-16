@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ParadigmaDocs {
     private String activeUser;
     private ArrayList<User> users;  
-    //private ArrayList<Document> docs;
+    private ArrayList<Document> docs;
     
     
     //Constructor
@@ -23,7 +23,7 @@ public class ParadigmaDocs {
     public ParadigmaDocs(){
         this.activeUser = null;
         this.users = new ArrayList<User>();
-        //this.docs = new ArrayList<Document>();
+        this.docs = new ArrayList<Document>();
     }
     //Selectores
     public String getActiveUser(){
@@ -32,10 +32,10 @@ public class ParadigmaDocs {
     public ArrayList<User> getRegisterUsers(){
         return this.users;
     }
-    /*
+    
     public ArrayList<Document> getPlataformDocs(){
         return this.docs;
-    }*/
+    }
     //Metodos
     /*Agrega un usuario a paradigmaDocs*/
     public void addUser(User userToAdd){
@@ -43,10 +43,10 @@ public class ParadigmaDocs {
     }
     
     /*Agrega un documento a paradigmaDocs*/
-    /*
+    
     public void addDoc(Document docToAdd ){
         this.docs.add(docToAdd);
-    }*/
+    }
     public boolean isRegister(String username){
         if(this.users.isEmpty()){
             return false;
@@ -79,7 +79,9 @@ public class ParadigmaDocs {
         else if (!isRegister(username)){
             //Se registra
             //Falta crear el id correlativo
-            User newUser = new User(-1,username,password);
+            int cantidadUsrs = this.users.size();
+            System.out.print(this.users.size()+"tamanio users");
+            User newUser = new User(cantidadUsrs+1,username,password);
             this.users.add(newUser);         
             return true;
         }
@@ -94,7 +96,9 @@ public class ParadigmaDocs {
             int lenUsers = this.users.size();
             for(int i = 0 ; i<lenUsers;i++){
                 if((users.get(i).getUsername().equals(username)) && (users.get(i).getPassword().equals(password))){
-                return true;}
+                    this.activeUser = username;
+                    return true;
+                }
             
             }
             return false;
@@ -102,6 +106,5 @@ public class ParadigmaDocs {
         
         
     }
-
 
 }

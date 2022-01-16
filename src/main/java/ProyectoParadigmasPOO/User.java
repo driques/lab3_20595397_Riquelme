@@ -21,14 +21,13 @@ public class User {
     private final String username;
     private final String password;
     private Date date; // fecha de registro
-    private ArrayList<Document> docs;
-
+   
     public User (int id,String userNameIn,String pass){
         this.idUser = id;
         this.username = userNameIn;
         this.password = pass;
         this.date = new Date();
-        this.docs = new ArrayList<Document>();
+       
     
     }
 
@@ -39,9 +38,6 @@ public class User {
         return this.username;}
     public String getPassword(){
         return this.password;}
-    public ArrayList<Document> getDocs(){
-        return this.docs;
-    }
     public Date getDate(){
         return this.date;}
     
