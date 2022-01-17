@@ -78,9 +78,7 @@ public class ParadigmaDocs {
         }
         else if (!isRegister(username)){
             //Se registra
-            //Falta crear el id correlativo
             int cantidadUsrs = this.users.size();
-            System.out.print(this.users.size()+"tamanio users");
             User newUser = new User(cantidadUsrs+1,username,password);
             this.users.add(newUser);         
             return true;

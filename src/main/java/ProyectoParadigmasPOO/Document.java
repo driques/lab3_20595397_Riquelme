@@ -20,7 +20,7 @@ public class Document {
     private Date dateDoc;
     private String content;
     private String nameDoc;
-    //private ArrayList<String> share;
+    private ArrayList<String> share;
     
     
     //Constructor
@@ -30,7 +30,7 @@ public class Document {
         this.nameDoc = nombreDoc;
         this.dateDoc = new Date();
         this.content = contenido;
-        //this.share = new ArrayList<>();
+        this.share = new ArrayList<>();
         }
     //Selectores
     public String getDocOwner(){
@@ -48,21 +48,20 @@ public class Document {
     public Date getDocDate(){
         return this.dateDoc;   
     }
-    /*
+    
     public ArrayList<String> getDocShare(){
         return this.share;   
-    }*/
+    }
     //Métodos
     
     //addShare
     //Agrega a usuarios a la lista de share del documento
-    /*
-    public void addShare(ArrayList<String> addUser){
-    for(int i = 0; i < addUser.size();i++){
-        this.share.add(addUser.get(i));
-    }*/
+    
+    public void addShare(String addUser){
+       this.share.add(addUser);
+    }
+   
 }
-    
-    
-    
+        
+   
 
