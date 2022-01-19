@@ -15,6 +15,7 @@ public class ParadigmaDocs {
     private String activeUser;
     private ArrayList<User> users;  
     private ArrayList<Document> docs;
+    private ArrayList<Document> docsVer;
     
     
     //Constructor
@@ -24,6 +25,7 @@ public class ParadigmaDocs {
         this.activeUser = null;
         this.users = new ArrayList<User>();
         this.docs = new ArrayList<Document>();
+        this.docsVer = new ArrayList<Document>();
     }
     //Selectores
     public String getActiveUser(){
@@ -36,6 +38,9 @@ public class ParadigmaDocs {
     public ArrayList<Document> getPlataformDocs(){
         return this.docs;
     }
+    public ArrayList<Document> getPlataformDocsVer(){
+        return this.docsVer;
+    }
     //Metodos
     /*Agrega un usuario a paradigmaDocs*/
     public void addUser(User userToAdd){
@@ -44,9 +49,31 @@ public class ParadigmaDocs {
     
     /*Agrega un documento a paradigmaDocs*/
     
-    public void addDoc(Document docToAdd ){
+    public void addDoc(Document docToAdd){
         this.docs.add(docToAdd);
     }
+    
+    public void addDoc(Document docToAdd, int index){
+        this.docs.add(index, docToAdd);
+    }
+    
+    
+    public void removeDoc(Document docToRemove){
+        this.docs.remove(docToRemove);
+    
+    }
+    /*Agrega una version del doc a paradigmaDocs*/
+    
+    public void addDocVer(Document docToAdd){
+        this.docsVer.add(docToAdd);
+    }
+    
+    public void removeDocVer (Document docToRemove){
+    
+        this.docsVer.remove(docToRemove);
+    }
+    
+    //Retorna si se esta registrado o no
     public boolean isRegister(String username){
         if(this.users.isEmpty()){
             return false;
@@ -104,5 +131,41 @@ public class ParadigmaDocs {
         
         
     }
+    
+    public int maxIdVer(int idDoc){
+        int maxVer = 0;
+        int lenVer = this.getPlataformDocsVer().size();
+        
+        for(int i = 0 ; i<lenVer ; i++){
+            if (this.getPlataformDocsVer().get(i).getDocId()==idDoc+1){
+                if (this.getPlataformDocsVer().get(i).getDocIdVer() > maxVer){
+                    maxVer = this.getPlataformDocsVer().get(i).getDocIdVer() ;
+                }    
+            }
+
+        }
+        return maxVer;
+        
+    }
+    
+    public Document searchByIDVer(int idDoc, int idVer){
+ 
+        int lenVersions = this.getPlataformDocsVer().size();
+        for(int i = 0;i<lenVersions;i++){
+           
+            if (this.getPlataformDocsVer().get(i).getDocId()==idDoc+1 &&
+            this.getPlataformDocsVer().get(i).getDocIdVer() == idVer){
+                
+                return this.getPlataformDocsVer().get(i); 
+            
+            }
+        }
+        //En caso erroneo
+        Document elseDocument = this.getPlataformDocs().get(idDoc-1);
+        
+        return elseDocument;
+    }
+    
+   
 
 }

@@ -190,18 +190,21 @@ public class Menu{
                                 System.out.println("Ingresa un numero!");
                                 typeAccess = scanAccess.nextLine();
                                 }
-                            if(typeAccess.equals("1")){
+                        switch (typeAccess) {
+                            case "1":
                                 typeAccess="lectura";
-                            }else if ( typeAccess.equals("2")){
+                                break;
+                            case "2":
                                 typeAccess="escritura";
-                            } else if (typeAccess.equals("3")){
+                                break;
+                            case "3":
                                 typeAccess="comentario";
-                            }
+                                break;
+                            default:
+                                break;
+                        }
                             
-                            
-                            
-                            
-                            
+                                   
                             for(int i = 0;i<sizeShareUsers;i++){
                                 if(pDocs.isRegister(shareUsers[i])){
                                     pDocs.getPlataformDocs().get(idInt).addShare(shareUsers[i]);
@@ -223,11 +226,97 @@ public class Menu{
                         break;
                         
                     case 3:
-                        System.out.println("option 3");
+                        
+                        System.out.println("Agregando contenido . . . ");
+                        //Scanner
+                        Scanner textToAdd = new Scanner(System.in);
+                        System.out.println("Seleccione id documento para agregar contenido: ");
+                        int getIdDoc = inputInt.nextInt();
+                        //NOTA Falta recuperar errores de parseo
+                        try{
+                            getIdDoc = getIdDoc -1;
+                            if(pDocs.getPlataformDocs().get(getIdDoc).getDocOwner().equals(pDocs.getActiveUser())){ //<- NOTA: felta verificar que tambien puede tener permisos de escritor
+                                
+                                System.out.println("Contenido a agregar: ");
+                                String toAdd = textToAdd.nextLine();
+                                
+                                
+                                Document lastDoc = new Document(pDocs.getPlataformDocs().get(getIdDoc));
+                                pDocs.addDocVer(lastDoc);
+                                
+                                String addContent = pDocs.getPlataformDocs().get(getIdDoc).getDocContent() + toAdd;
+                                int newVersion=  pDocs.getPlataformDocs().get(getIdDoc).getDocIdVer() + 1;
+                                
+                                pDocs.getPlataformDocs().get(getIdDoc).setIdVer(newVersion);
+                                pDocs.getPlataformDocs().get(getIdDoc).setContent(addContent);
+
+                      
+                            }
+                            else{
+                                 System.out.println("\nOpcion no valida!\n");
+                            }
+                            
+                        }catch (Exception e){
+                            System.out.println("Documento invalido o entrada no valida!");
+                        }
+                        
+                        
                         break;
+                        
+                        
+                        
                     case 4:
-                        System.out.println("option 4 sin implementar");
+                        System.out.println("ROLLBACK . . . ");
+                         //Scanner
+                        Scanner inputRoll = new Scanner(System.in);                      
+                        Scanner inputId = new Scanner(System.in);
+                        System.out.println("Seleccione id documento para hacer el rollback: ");
+                        int docIdToRollback = inputId.nextInt();
+                        System.out.println("Seleccione id de la version del documento para hacer el rollback ");
+                        int docVerToRollback = inputId.nextInt();
+                        
+                        //NOTA Falta recuperar errores de parseo
+                        try{
+                            docIdToRollback = docIdToRollback -1;
+                            
+                            int maxVerId = pDocs.maxIdVer(docIdToRollback);
+                            
+                            System.out.println("maxVerId -> "+ maxVerId);
+                            if(pDocs.getPlataformDocs().get(docIdToRollback).getDocOwner().equals(pDocs.getActiveUser()) &&
+                                    maxVerId>=docVerToRollback){
+                                
+                                Document lastDoc = new Document(pDocs.getPlataformDocs().get(docIdToRollback));
+                               
+                                pDocs.addDocVer(lastDoc);
+                              
+                                Document toRollback = pDocs.searchByIDVer(docIdToRollback, docVerToRollback);
+                                
+                                pDocs.removeDocVer(toRollback);
+                               
+                                pDocs.addDoc(toRollback, docIdToRollback);
+                               
+                            }
+                            else{
+                                 System.out.println("\nOpcion no valida!\n");
+                            }
+                            
+                        }catch (Exception e){
+                            System.out.println("Documento invalido o entrada no valida!");
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        //
                         break;
+                        
+                        
+                        
+                        
+                        
                     case 5:
                         System.out.println("option 5 sin implementar");
                         break;
@@ -241,7 +330,6 @@ public class Menu{
                         for(int i = 0; i< lenDocs; i++){
                             if(pDocs.getPlataformDocs().get(i).getDocOwner().equals(pDocs.getActiveUser())){
                                 System.out.println(i+1+"<- id doc) nombre documento: "+pDocs.getPlataformDocs().get(i).getDocName());
-                                System.out.println("REAL ID TEST ->"+pDocs.getPlataformDocs().get(i).getDocId());
                             }
                         }
                         System.out.println("Seleccione id documento para ver contenido: ");
@@ -252,6 +340,7 @@ public class Menu{
                                 System.out.println("Contenido: "+pDocs.getPlataformDocs().get(getDoc).getDocContent());
                                 System.out.println("Creado el: "+pDocs.getPlataformDocs().get(getDoc).getDocDate());
                                 System.out.println("ID del documento: "+pDocs.getPlataformDocs().get(getDoc).getDocId());
+                                System.out.println("ID de la version: "+pDocs.getPlataformDocs().get(getDoc).getDocIdVer());
                                 //Falta crear un toStringShare que permita visualizar de mejor forma el como se
                                 //comparten los usuarios
                                 System.out.println("Compartido con: "+pDocs.getPlataformDocs().get(getDoc).getDocShare());
