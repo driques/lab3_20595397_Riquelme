@@ -6,7 +6,7 @@
 package ProyectoParadigmasPOO;
 
 
-import java.util.ArrayList;
+
 import java.util.Date;
 
 /**
@@ -21,6 +21,14 @@ public class User {
     private final String username;
     private final String password;
     private Date date; // fecha de registro
+        /** 
+        *
+        * It is a constructor. 
+        *
+        * @param id  the id
+        * @param userNameIn  the user name in
+        * @param pass  the pass
+        */
    
     public User (int id,String userNameIn,String pass){
         this.idUser = id;
@@ -30,20 +38,41 @@ public class User {
        
     
     }
+        /** 
+     *
+     * Gets the identifier
+     *
+     * @return the identifier
+     */
 
     // Getters
     public int getId(){
         return this.idUser;}
+        /** 
+     *
+     * Gets the username
+     *
+     * @return the username
+     */
     public String getUsername(){
         return this.username;}
+        /** 
+     *
+     * Gets the password
+     *
+     * @return the password
+     */
     public String getPassword(){
         return this.password;}
+        /** 
+     *
+     * Gets the date
+     *
+     * @return the date
+     */
     public Date getDate(){
         return this.date;}
     
     
-   /* public boolean isLogin(){
-        null;
-            }
-    */
+   
 }

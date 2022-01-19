@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ProyectoParadigmasPOO;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -273,7 +274,7 @@ public class Menu{
                         System.out.println("Seleccione id documento para hacer el rollback: ");
                         int docIdToRollback = inputId.nextInt();
                         System.out.println("Seleccione id de la version del documento para hacer el rollback ");
-                        int docVerToRollback = inputId.nextInt();
+                        int docVerToRollback = inputRoll.nextInt();
                         
                         //NOTA Falta recuperar errores de parseo
                         try{
@@ -304,12 +305,6 @@ public class Menu{
                             System.out.println("Documento invalido o entrada no valida!");
                         }
                         
-                        
-                        
-                        
-                        
-                        
-                        
                         //
                         break;
                         
@@ -318,10 +313,51 @@ public class Menu{
                         
                         
                     case 5:
-                        System.out.println("option 5 sin implementar");
+                        System.out.println("RevokeAllAccess");
+                         //Scanner
+                        Scanner idToRevoke = new Scanner(System.in);
+                        System.out.println("Seleccione id documento para hacer el revoke: ");
+                        int docIdToRevoke = idToRevoke.nextInt();
+                        
+                        //NOTA Falta recuperar errores de parseo
+                        try{
+                            docIdToRevoke = docIdToRevoke -1;
+                            
+                            if(pDocs.getPlataformDocs().get(docIdToRevoke).getDocOwner().equals(pDocs.getActiveUser())){
+                                pDocs.getPlataformDocs().get(docIdToRevoke).revokeAllAccess();
+                                System.out.println("\nUsuarios revocados correctamente!\n");
+                            }
+                            else{
+                                System.out.println("\nOpcion no valida!\n");
+                            }
+                            
+                        }catch (Exception e){
+                            System.out.println("Documento invalido o entrada no valida!");
+                        }
+                        
                         break;
+                        
                     case 6:
-                        System.out.println("option 6 sin implementar");
+                        System.out.println("Search");
+                         //Scanner
+                        Scanner stringContains = new Scanner(System.in);
+                        System.out.println("Escriba el texto a buscar en los documentos: ");
+                        String textContains = stringContains.nextLine();
+                        
+                        ArrayList<String> textosEncontrados = pDocs.search(pDocs.getActiveUser(),textContains);
+                        
+                        int sizeEncontrados = textosEncontrados.size();
+                        
+                        if(sizeEncontrados>0){
+                            for(int i = 0;i<sizeEncontrados;i++){
+                                System.out.println(textosEncontrados.get(i));
+                            }
+                        }else{
+                            System.out.println("No hay coincidencias");
+                        }
+                        
+                        
+                        
                         break;
                     case 7:
                         
@@ -341,7 +377,7 @@ public class Menu{
                                 System.out.println("Creado el: "+pDocs.getPlataformDocs().get(getDoc).getDocDate());
                                 System.out.println("ID del documento: "+pDocs.getPlataformDocs().get(getDoc).getDocId());
                                 System.out.println("ID de la version: "+pDocs.getPlataformDocs().get(getDoc).getDocIdVer());
-                                //Falta crear un toStringShare que permita visualizar de mejor forma el como se
+                                //NOTA Falta crear un toStringShare que permita visualizar de mejor forma el como se
                                 //comparten los usuarios
                                 System.out.println("Compartido con: "+pDocs.getPlataformDocs().get(getDoc).getDocShare());
                       

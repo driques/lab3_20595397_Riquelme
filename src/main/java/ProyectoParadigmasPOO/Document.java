@@ -7,13 +7,12 @@ package ProyectoParadigmasPOO;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.lang.Cloneable;
 
 /**
  *
  * @author driques
  */
-public class Document implements Cloneable {
+public class Document{
     //Representacion
     //creador, IDdoc, dateDoc,content,share
     private String owner;
@@ -88,8 +87,23 @@ public class Document implements Cloneable {
        this.share.add(addUser);
     }
     
-    public void refreshDocVer(){}
+    public void revokeAllAccess(){
+        this.share = new ArrayList<>();
+    }
     
+    
+    //isShare verifica que al usuario ingresado se le haya compartido
+    //el documento en cualquiera de sus formas, es decir, comentario, lectura o escritura.
+    public boolean isShare(String user){
+        int sizeShare = this.share.size();
+        for(int i = 0;i<sizeShare;i++){
+            if(share.get(i).equals(user)){
+                return true;
+            }
+        }
+            
+        return false;
+    }
   
    
 }

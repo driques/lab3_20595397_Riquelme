@@ -16,8 +16,7 @@ public class ParadigmaDocs {
     private ArrayList<User> users;  
     private ArrayList<Document> docs;
     private ArrayList<Document> docsVer;
-    
-    
+        
     //Constructor
     /*Se crea una plataforma tipo ParadigmaDocs, donde se almacenar� el usuario
     activo, los registrados y sus documentos*/
@@ -165,6 +164,50 @@ public class ParadigmaDocs {
         
         return elseDocument;
     }
+    
+    public ArrayList<String> search(String user,String textToSearch){
+        ArrayList<String> docFound = new ArrayList<>();
+        
+        int sizeDocs = this.docs.size();
+        int sizeVerDocs = this.docsVer.size();
+        
+        for(int i = 0 ;i<sizeDocs; i++){
+            if(this.docs.get(i).getDocOwner().equals(user)||this.docs.get(i).isShare(user)){
+                if(this.docs.get(i).getDocContent().contains(textToSearch)){
+                    String textToAdd = this.docs.get(i).getDocContent();
+                    String idToAdd = String.valueOf(this.docs.get(i).getDocId());
+                    String idVerToAdd = String.valueOf(this.docs.get(i).getDocIdVer());
+                   
+                    textToAdd = idToAdd+"<- ID doc\n"+idVerToAdd+"<- id version doc\n"+textToAdd+"\n";
+                    docFound.add(textToAdd);
+                    
+                }
+            
+            }
+        
+        }
+        //En versiones anteriores
+        for(int i = 0 ;i<sizeVerDocs; i++){
+            if(this.docsVer.get(i).getDocOwner().equals(user)||this.docsVer.get(i).isShare(user)){
+                if(this.docsVer.get(i).getDocContent().contains(textToSearch)){
+                    String textToAdd = this.docsVer.get(i).getDocContent();
+                    String idToAdd = String.valueOf(this.docsVer.get(i).getDocId());
+                    String idVerToAdd = String.valueOf(this.docsVer.get(i).getDocIdVer());
+                   
+                    textToAdd = idToAdd+")ID doc\n"+idVerToAdd+")id version doc\n"+textToAdd+"\n";
+                    docFound.add(textToAdd);
+                    
+                }
+            
+            }
+        
+        }
+        
+        return docFound;
+           
+    
+    }
+    
     
    
 
