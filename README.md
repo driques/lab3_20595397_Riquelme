@@ -12,15 +12,20 @@ Utilizar git para poder copiar el repositorio, o de plano descargarlo.
 _Instalar previamente JDK v11+, JRE, y Gradle._
 
 ## Ejecutando las pruebas ⚙️
+Para poder ejecutar el programa, es necesario abrir una CMD, terminal o powerShell en la carpeta contenedora del código fuente 
+(es decir ./lab3_205953973_Riquelme) y ejecutar el siguiente comando:
 
-Codigo en proceso
+```
+.\gradlew.bat run --console=plain
+```
+
 
 ## Construido con 🛠️
 
 * [NetBeans 12.0](https://netbeans.apache.org/download/index.html) - IDE.
 * [GitHub](https://github.com/) - Controlador de versiones.
 * [GitKraken](https://www.gitkraken.com/) - GUI Client.
-* [openJDK 11](https://adoptium.net/?variant=openjdk11) - Distribución de Java.
+* [openJDK 11](https://adoptium.net/?variant=openjdk11) - Distribución de Java Development Kit.
 * [Gradle](https://gradle.org/) - Herramienta de automatización.
 ## Autor ✒️
 * **Diego Riquelme** - *Código y documentación* - [driques](#driques)
