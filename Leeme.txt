@@ -1,0 +1,4 @@
+Proyecto realizado bajo jdk version "11.0.12" 2021-07-20 LTS
+Sobre Windows 10
+Para ejecutarlo, utilizar gradle con el siguiente comando en la consola sobre la carpeta: .\gradlew.bat run --console=plain
+

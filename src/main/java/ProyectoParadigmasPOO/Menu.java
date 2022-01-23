@@ -57,6 +57,12 @@ public class Menu{
         platform.create("Lorem ipsum","Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");
         
         platform.logout();
+        
+        platform.register("juanito", "perez");
+        platform.login("juanito", "perez");
+        platform.create("Documento de juanito perez","Testeando esta plataforma.");
+        
+        platform.logout();
         String optionStr;
         
         do{
@@ -214,6 +220,8 @@ public class Menu{
                                 typeAccess="comentario";
                                 break;
                             default:
+                                System.out.println("Ingresa una opcion correcta!");
+                                sizeShareUsers = 0;
                                 break;
                         }
                             
@@ -432,7 +440,7 @@ public class Menu{
                             System.out.println("Ingresa un numero!");
                             stringToSrch = toSearchId.next();
                         }
-                        int searchId = Integer.parseInt(stringToSrch);
+                        int searchId = Integer.parseInt(stringToSrch) -1;
                         
                       
                         //
@@ -441,7 +449,7 @@ public class Menu{
                         String textoContenido = toSearch.nextLine();
                         //
                         Scanner toReplace = new Scanner(System.in);
-                        System.out.println("Escriba el texto a buscar en los documentos: ");
+                        System.out.println("Escriba el texto a reemplazar en los documentos: ");
                         String textoReemplazar = toReplace.nextLine();
                         
                         if((platform.getPlatformDocs().get(searchId).getDocOwner().equals(platform.getActiveUser())) || 
