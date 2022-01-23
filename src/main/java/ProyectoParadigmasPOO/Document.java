@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Tools |  
  * and open the template in the editor.
  */
 package ProyectoParadigmasPOO;
@@ -21,7 +21,7 @@ public class Document{
     private Date dateDoc;
     private String content;
     private String nameDoc;
-    private ArrayList<String> share;
+    private ArrayList<Access> share;
     
     
     //Constructor
@@ -65,7 +65,7 @@ public class Document{
         return this.dateDoc;   
     }
     
-    public ArrayList<String> getDocShare(){
+    public ArrayList<Access> getDocShare(){
         return this.share;   
     }
     
@@ -83,7 +83,7 @@ public class Document{
     //addShare
     //Agrega a usuarios a la lista de share del documento
     
-    public void addShare(String addUser){
+    public void addShare(Access addUser){
        this.share.add(addUser);
     }
     
@@ -97,13 +97,49 @@ public class Document{
     public boolean isShare(String user){
         int sizeShare = this.share.size();
         for(int i = 0;i<sizeShare;i++){
-            if(share.get(i).equals(user)){
+            if(share.get(i).getUserAccess().equals(user)){
                 return true;
             }
         }
             
         return false;
     }
+    
+    
+    public boolean isWritter(String user){
+        int sizeShare = this.share.size();
+        for(int i = 0;i<sizeShare;i++){
+            if(share.get(i).getUserAccess().equals(user)&& share.get(i).getAccess().equals("escritura")){
+                return true;
+            }
+        }
+            
+        return false;
+    
+    }
+    public boolean isReader(String user){
+        int sizeShare = this.share.size();
+        for(int i = 0;i<sizeShare;i++){
+            if(share.get(i).getUserAccess().equals(user)&& share.get(i).getAccess().equals("lectura")){
+                return true;
+            }
+        }
+            
+        return false;
+    
+    }
+    public boolean isComment(String user){
+        int sizeShare = this.share.size();
+        for(int i = 0;i<sizeShare;i++){
+            if(share.get(i).getUserAccess().equals(user)&& share.get(i).getAccess().equals("comentario")){
+                return true;
+            }
+        }
+            
+        return false;
+    
+    }
+    
   
    
 }

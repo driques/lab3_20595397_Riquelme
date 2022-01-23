@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author driques
  */
 public class ParadigmaDocs {
+    //
     private String activeUser;
     private ArrayList<User> users;  
     private ArrayList<Document> docs;
@@ -34,10 +35,10 @@ public class ParadigmaDocs {
         return this.users;
     }
     
-    public ArrayList<Document> getPlataformDocs(){
+    public ArrayList<Document> getPlatformDocs(){
         return this.docs;
     }
-    public ArrayList<Document> getPlataformDocsVer(){
+    public ArrayList<Document> getPlatformDocsVer(){
         return this.docsVer;
     }
     //Metodos
@@ -133,12 +134,12 @@ public class ParadigmaDocs {
     
     public int maxIdVer(int idDoc){
         int maxVer = 0;
-        int lenVer = this.getPlataformDocsVer().size();
+        int lenVer = this.getPlatformDocsVer().size();
         
         for(int i = 0 ; i<lenVer ; i++){
-            if (this.getPlataformDocsVer().get(i).getDocId()==idDoc+1){
-                if (this.getPlataformDocsVer().get(i).getDocIdVer() > maxVer){
-                    maxVer = this.getPlataformDocsVer().get(i).getDocIdVer() ;
+            if (this.getPlatformDocsVer().get(i).getDocId()==idDoc+1){
+                if (this.getPlatformDocsVer().get(i).getDocIdVer() > maxVer){
+                    maxVer = this.getPlatformDocsVer().get(i).getDocIdVer() ;
                 }    
             }
 
@@ -149,18 +150,18 @@ public class ParadigmaDocs {
     
     public Document searchByIDVer(int idDoc, int idVer){
  
-        int lenVersions = this.getPlataformDocsVer().size();
+        int lenVersions = this.getPlatformDocsVer().size();
         for(int i = 0;i<lenVersions;i++){
            
-            if (this.getPlataformDocsVer().get(i).getDocId()==idDoc+1 &&
-            this.getPlataformDocsVer().get(i).getDocIdVer() == idVer){
+            if (this.getPlatformDocsVer().get(i).getDocId()==idDoc+1 &&
+            this.getPlatformDocsVer().get(i).getDocIdVer() == idVer){
                 
-                return this.getPlataformDocsVer().get(i); 
+                return this.getPlatformDocsVer().get(i); 
             
             }
         }
         //En caso erroneo
-        Document elseDocument = this.getPlataformDocs().get(idDoc-1);
+        Document elseDocument = this.getPlatformDocs().get(idDoc-1);
         
         return elseDocument;
     }
@@ -209,6 +210,23 @@ public class ParadigmaDocs {
     }
     
     
-   
+    public boolean searchAndReplace(int idText ,String textToSearch, String textToReplace){
+        if(this.docs.get(idText).getDocContent().contains(textToSearch)){
+                    String textReplace = this.docs.get(idText).getDocContent();
+                    String newText = textReplace.replaceAll(textToSearch, textToReplace);
+                    
+                    Document docVer = new Document(this.docs.get(idText));
+                  
+                    this.docs.get(idText).setContent(newText);
+                    this.docs.get(idText).setIdVer(this.docs.get(idText).getDocIdVer()+1);
+                    this.addDocVer(docVer);
+                    return true;
+                    
+                }
+        else{
+           return false;
+        }
+    
+    }  
 
 }

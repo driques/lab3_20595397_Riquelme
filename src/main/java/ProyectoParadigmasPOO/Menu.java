@@ -11,44 +11,48 @@ import java.util.Scanner;
  *
  * @author driques
  */
+
+
+
+
+
 public class Menu{
-    private ParadigmaDocs plataform;
+    private ParadigmaDocs platform;
     Scanner inputInt = new Scanner(System.in);
     Scanner inputStr = new Scanner(System.in);
-    ParadigmaDocs pDocs = new ParadigmaDocs();
-    
+       
     public Menu(){
-        plataform = new ParadigmaDocs();
+        platform = new ParadigmaDocs();
     }
     public void runMenu(){
-        pDocs.register("driques", "123");
-        pDocs.login("driques", "123");
+        platform.register("driques", "123");
+        platform.login("driques", "123");
         create("doc 1 driques","content test");
         create("otro doc test","este es otro test para driques");
         create("Estoy aprendiendo Java", "Cree este documento porque estoy aprendiendo Java");
-        pDocs.logout();
+        platform.logout();
         
         
-        pDocs.register("peter", "holaPeter");
-        pDocs.login("peter", "holaPeter");
+        platform.register("peter", "holaPeter");
+        platform.login("peter", "holaPeter");
         create("Test para peter", "Hola peterrrrr");
         create("Este es otro test de peter","soy petar parkaaar");
         create("ultimo texto","Tu peter del flow ya tu sae");
         
-        pDocs.logout();
+        platform.logout();
         
-        pDocs.register("americo", "amorir");
-        pDocs.login("americo", "amorir");
+        platform.register("americo", "amorir");
+        platform.login("americo", "amorir");
         create("Este es el embrujooo","A morirrrrrr");
         create("Grupo alegriaaaaaa","No te sientas mal, amigo nada mas de la cervecitaaaa!!!!");
         
-        pDocs.logout();
+        platform.logout();
         
-        pDocs.register("user", "pass");
-        pDocs.login("user", "pass");
+        platform.register("user", "pass");
+        platform.login("user", "pass");
         create("Lorem ipsum","Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");
         
-        pDocs.logout();
+        platform.logout();
         String optionStr;
         
         do{
@@ -64,7 +68,8 @@ public class Menu{
             System.out.println("-Para todo lo que quieras escribir-");
             System.out.println("\n 1) Iniciar sesion"
                                 +"\n 2) Registrarse"
-                                +"\n 3) Salir");
+                                +"\n 3) Salir"
+                                +"\n 4) Mostrar plataforma");
            
 
             optionStr = inputInt.next();
@@ -87,15 +92,9 @@ public class Menu{
                     System.out.println("Hasta pronto . . . ");
                     System.exit(0);
                     break;
-                case 4:// <- esto se elimina
-                    //TEST USUARIOS REGISTRADOS
-                     System.out.println("USUARIOS REGISTRADOS . . . ");
-                     int lenUsersReg = pDocs.getRegisterUsers().size();
-                     for(int i = 0; i< lenUsersReg; i++){
-                         System.out.println("User "+i +" "+pDocs.getRegisterUsers().get(i).getUsername());
-         
-                     }
-                     break;
+                case 4:
+                    printEditor(editorToString(platform));
+                    break;
                      
                      
                 default:
@@ -117,14 +116,14 @@ public class Menu{
         System.out.println("Ingresa contrasenia: ");
         String loginPass = inputStr.next();
         //Se loguea
-        if(pDocs.login(loginUser,loginPass)){
+        if(platform.login(loginUser,loginPass)){
             String getOptionLogin;
             boolean logout = false;
             System.out.println("---------LOGIN EXITOSO---------");
             System.out.println("---------ENTRANDO EN EL SISTEMA---------");
             do{
                 
-                System.out.println("Usuario activo: "+pDocs.getActiveUser());
+                System.out.println("Usuario activo: "+platform.getActiveUser());
                 System.out.println("==OPCIONES==");
                 System.out.println("1.Crear un nuevo documento");
                 System.out.println("2.Compartir documento");
@@ -133,8 +132,10 @@ public class Menu{
                 System.out.println("5.Revocar acceso a un documento");
                 System.out.println("6.Buscar en los documentos");
                 System.out.println("7.Visualizar documentos");
-                System.out.println("8.Cerrar sesion");
-                System.out.println("9.Cerrar programa");
+                System.out.println("8.Buscar y reemplazar");
+                System.out.println("9.Cerrar sesion");
+                System.out.println("10.Cerrar programa");
+                
                 System.out.println("Introduza la opcion: ");
                 getOptionLogin = inputStr.next();
                 while (isNumeric(getOptionLogin)==false){
@@ -176,7 +177,7 @@ public class Menu{
                             
                             
                             
-                        if(pDocs.getPlataformDocs().get(idInt).getDocOwner().equals(pDocs.getActiveUser())){
+                        if(platform.getPlatformDocs().get(idInt).getDocOwner().equals(platform.getActiveUser())){
                             System.out.println("Ingresa una lista de usuarios a compartir (separa cada usuario por un guion - ): ");
                             String listToShare = scanIdShare.nextLine();
                             String[] shareUsers = listToShare.split("-");
@@ -207,9 +208,11 @@ public class Menu{
                             
                                    
                             for(int i = 0;i<sizeShareUsers;i++){
-                                if(pDocs.isRegister(shareUsers[i])){
-                                    pDocs.getPlataformDocs().get(idInt).addShare(shareUsers[i]);
-                                    pDocs.getPlataformDocs().get(idInt).addShare(typeAccess);
+                                if(platform.isRegister(shareUsers[i])){
+                                    //Crear un objeto de tipo access
+                                    Access accesoDoc = new Access(shareUsers[i],typeAccess);
+                                    platform.getPlatformDocs().get(idInt).addShare(accesoDoc);
+                                   
                                     System.out.println("Compartido con: "+shareUsers[i]+" con exito!");
                                     
                                 }
@@ -231,25 +234,37 @@ public class Menu{
                         System.out.println("Agregando contenido . . . ");
                         //Scanner
                         Scanner textToAdd = new Scanner(System.in);
+                        Scanner inputDoc =  new Scanner(System.in);
                         System.out.println("Seleccione id documento para agregar contenido: ");
-                        int getIdDoc = inputInt.nextInt();
-                        //NOTA Falta recuperar errores de parseo
+                        String getIdDocStr = inputDoc.next();
+                        
+                        
+                        while (isNumeric(getIdDocStr)==false){
+                            System.out.println("Ingresa un numero!");
+                            getIdDocStr = inputDoc.next();
+                        }
+                        int getIdDoc = Integer.parseInt(getIdDocStr);
+                        
+                        
+                        
+                        
                         try{
                             getIdDoc = getIdDoc -1;
-                            if(pDocs.getPlataformDocs().get(getIdDoc).getDocOwner().equals(pDocs.getActiveUser())){ //<- NOTA: felta verificar que tambien puede tener permisos de escritor
-                                
+                            
+                            if((platform.getPlatformDocs().get(getIdDoc).getDocOwner().equals(platform.getActiveUser())) || 
+                                    (platform.getPlatformDocs().get(getIdDoc).isWritter(platform.getActiveUser()))){ 
                                 System.out.println("Contenido a agregar: ");
                                 String toAdd = textToAdd.nextLine();
                                 
                                 
-                                Document lastDoc = new Document(pDocs.getPlataformDocs().get(getIdDoc));
-                                pDocs.addDocVer(lastDoc);
+                                Document lastDoc = new Document(platform.getPlatformDocs().get(getIdDoc));
+                                platform.addDocVer(lastDoc);
                                 
-                                String addContent = pDocs.getPlataformDocs().get(getIdDoc).getDocContent() + toAdd;
-                                int newVersion=  pDocs.getPlataformDocs().get(getIdDoc).getDocIdVer() + 1;
+                                String addContent = platform.getPlatformDocs().get(getIdDoc).getDocContent() + toAdd;
+                                int newVersion=  platform.getPlatformDocs().get(getIdDoc).getDocIdVer() + 1;
                                 
-                                pDocs.getPlataformDocs().get(getIdDoc).setIdVer(newVersion);
-                                pDocs.getPlataformDocs().get(getIdDoc).setContent(addContent);
+                                platform.getPlatformDocs().get(getIdDoc).setIdVer(newVersion);
+                                platform.getPlatformDocs().get(getIdDoc).setContent(addContent);
 
                       
                             }
@@ -272,29 +287,46 @@ public class Menu{
                         Scanner inputRoll = new Scanner(System.in);                      
                         Scanner inputId = new Scanner(System.in);
                         System.out.println("Seleccione id documento para hacer el rollback: ");
-                        int docIdToRollback = inputId.nextInt();
-                        System.out.println("Seleccione id de la version del documento para hacer el rollback ");
-                        int docVerToRollback = inputRoll.nextInt();
+                        String docIdToRollbackStr = inputId.next();
                         
-                        //NOTA Falta recuperar errores de parseo
+                        while (isNumeric(docIdToRollbackStr)==false){
+                            System.out.println("Ingresa un numero!");
+                            docIdToRollbackStr = inputId.next();
+                        }
+                        int docIdToRollback = Integer.parseInt(docIdToRollbackStr);
+                        
+                        
+                        
+                        
+                        System.out.println("Seleccione id de la version del documento para hacer el rollback ");
+                        String docVerToRollbackStr = inputRoll.next();
+                        
+                        
+                        while (isNumeric(docVerToRollbackStr)==false){
+                            System.out.println("Ingresa un numero!");
+                            docVerToRollbackStr = inputRoll.next();
+                        }
+                        int docVerToRollback = Integer.parseInt(docVerToRollbackStr);
+                        
+                        
+                        
                         try{
                             docIdToRollback = docIdToRollback -1;
                             
-                            int maxVerId = pDocs.maxIdVer(docIdToRollback);
+                            int maxVerId = platform.maxIdVer(docIdToRollback);
                             
-                            System.out.println("maxVerId -> "+ maxVerId);
-                            if(pDocs.getPlataformDocs().get(docIdToRollback).getDocOwner().equals(pDocs.getActiveUser()) &&
+                            if(platform.getPlatformDocs().get(docIdToRollback).getDocOwner().equals(platform.getActiveUser()) &&
                                     maxVerId>=docVerToRollback){
                                 
-                                Document lastDoc = new Document(pDocs.getPlataformDocs().get(docIdToRollback));
+                                Document lastDoc = new Document(platform.getPlatformDocs().get(docIdToRollback));
                                
-                                pDocs.addDocVer(lastDoc);
+                                platform.addDocVer(lastDoc);
                               
-                                Document toRollback = pDocs.searchByIDVer(docIdToRollback, docVerToRollback);
+                                Document toRollback = platform.searchByIDVer(docIdToRollback, docVerToRollback);
                                 
-                                pDocs.removeDocVer(toRollback);
+                                platform.removeDocVer(toRollback);
                                
-                                pDocs.addDoc(toRollback, docIdToRollback);
+                                platform.addDoc(toRollback, docIdToRollback);
                                
                             }
                             else{
@@ -317,14 +349,21 @@ public class Menu{
                          //Scanner
                         Scanner idToRevoke = new Scanner(System.in);
                         System.out.println("Seleccione id documento para hacer el revoke: ");
-                        int docIdToRevoke = idToRevoke.nextInt();
+                        String docIdToRevokeStr = idToRevoke.next();
                         
-                        //NOTA Falta recuperar errores de parseo
+                        
+                        while (isNumeric(docIdToRevokeStr)==false){
+                            System.out.println("Ingresa un numero!");
+                            docIdToRevokeStr = idToRevoke.next();
+                        }
+                        int docIdToRevoke = Integer.parseInt(docIdToRevokeStr);
+                        
+                        
                         try{
                             docIdToRevoke = docIdToRevoke -1;
                             
-                            if(pDocs.getPlataformDocs().get(docIdToRevoke).getDocOwner().equals(pDocs.getActiveUser())){
-                                pDocs.getPlataformDocs().get(docIdToRevoke).revokeAllAccess();
+                            if(platform.getPlatformDocs().get(docIdToRevoke).getDocOwner().equals(platform.getActiveUser())){
+                                platform.getPlatformDocs().get(docIdToRevoke).revokeAllAccess();
                                 System.out.println("\nUsuarios revocados correctamente!\n");
                             }
                             else{
@@ -344,7 +383,7 @@ public class Menu{
                         System.out.println("Escriba el texto a buscar en los documentos: ");
                         String textContains = stringContains.nextLine();
                         
-                        ArrayList<String> textosEncontrados = pDocs.search(pDocs.getActiveUser(),textContains);
+                        ArrayList<String> textosEncontrados = platform.search(platform.getActiveUser(),textContains);
                         
                         int sizeEncontrados = textosEncontrados.size();
                         
@@ -356,52 +395,72 @@ public class Menu{
                             System.out.println("No hay coincidencias");
                         }
                         
+                        stringContains.close();
+                        
                         
                         
                         break;
                     case 7:
-                        
-                        System.out.println("Documentos . . . ");
-                        int lenDocs = pDocs.getPlataformDocs().size();
-                        for(int i = 0; i< lenDocs; i++){
-                            if(pDocs.getPlataformDocs().get(i).getDocOwner().equals(pDocs.getActiveUser())){
-                                System.out.println(i+1+"<- id doc) nombre documento: "+pDocs.getPlataformDocs().get(i).getDocName());
-                            }
-                        }
-                        System.out.println("Seleccione id documento para ver contenido: ");
-                        int getDoc = inputInt.nextInt();
-                        try{
-                            getDoc = getDoc -1;
-                            if(pDocs.getPlataformDocs().get(getDoc).getDocOwner().equals(pDocs.getActiveUser())){
-                                System.out.println("Contenido: "+pDocs.getPlataformDocs().get(getDoc).getDocContent());
-                                System.out.println("Creado el: "+pDocs.getPlataformDocs().get(getDoc).getDocDate());
-                                System.out.println("ID del documento: "+pDocs.getPlataformDocs().get(getDoc).getDocId());
-                                System.out.println("ID de la version: "+pDocs.getPlataformDocs().get(getDoc).getDocIdVer());
-                                //NOTA Falta crear un toStringShare que permita visualizar de mejor forma el como se
-                                //comparten los usuarios
-                                System.out.println("Compartido con: "+pDocs.getPlataformDocs().get(getDoc).getDocShare());
-                      
-                            }
-                            else{
-                                 System.out.println("\nOpcion no valida!\n");
-                            }
-                            
-                        }catch (Exception e){
-                            System.out.println("Documento invalido o entrada no valida!");
-                        }
-                        System.out.println("Pulsa enter para continuar . . .1");
-                        String error = catchError.nextLine();
+                        printEditor(editorToString(platform));
                         break;
                         
                     case 8:
-                        pDocs.logout();
+                        System.out.println("Search and replace");
+                         //Scanner
+                        Scanner toSearchId = new Scanner(System.in);
+                        System.out.println("Escriba el id del documento: ");
+                        String stringToSrch = toSearchId.nextLine();
+                        
+                      
+                        while (isNumeric(stringToSrch)==false){
+                            System.out.println("Ingresa un numero!");
+                            stringToSrch = toSearchId.next();
+                        }
+                        int searchId = Integer.parseInt(stringToSrch);
+                        
+                      
+                        //
+                        Scanner toSearch = new Scanner(System.in);
+                        System.out.println("Escriba el texto a buscar en los documentos: ");
+                        String textoContenido = toSearch.nextLine();
+                        //
+                        Scanner toReplace = new Scanner(System.in);
+                        System.out.println("Escriba el texto a buscar en los documentos: ");
+                        String textoReemplazar = toReplace.nextLine();
+                        
+                        if(platform.searchAndReplace(searchId, textoContenido, textoReemplazar)){
+                            System.out.println("Reemplazado con exito!");
+                        }else {
+                            System.out.println("Sin coincidencias");
+                        }
+                       
+                        
+                        
+                        /*
+                        ArrayList<String> found = platform.search(platform.getActiveUser(),stringToSrch);
+                        
+                        int sizeFound = found.size();
+                        
+                        if(sizeFound>0){
+                            for(int i = 0;i<sizeFound;i++){
+                                
+                            }
+                        }else{
+                            System.out.println("No hay coincidencias");
+                        }*/
+                        
+                        
+                        
+                        break;
+                    case 9:
+                        platform.logout();
                         logout = true;
                         return false;
-                    case 9:
-                        System.out.println("Hasta pronto . . . ");
+                       
+                    case 10:
+                         System.out.println("Hasta pronto . . . ");
                         System.exit(0);
                         break;
-                
                 
                 
                 }
@@ -418,6 +477,9 @@ public class Menu{
     
     
     }
+    
+    
+    
     private boolean case2(){
         System.out.println("---------REGISTRO---------");
         System.out.println("Ingresa nuevo usuario: ");
@@ -425,7 +487,7 @@ public class Menu{
         System.out.println("Ingresa una contrasenia: ");
         String registerPass = inputStr.next();
         //Se registra 
-        if(pDocs.register(registerUser, registerPass)){
+        if(platform.register(registerUser, registerPass)){
             System.out.println("---------REGISTRO EXITOSO---------");
             return true;
             
@@ -433,13 +495,27 @@ public class Menu{
         else{
             System.out.println("---------USUARIO YA REGISTRADO---------");
             return false;
+     
+        
         }
     }
     
+    
+    public String shareToString(ArrayList<Access> accesos){
+        int sizeAccess = accesos.size();
+        String accesses = "";
+        for(int i =0; i<sizeAccess;i++){
+            accesses=accesses.concat("Compartido con: "+accesos.get(i).getUserAccess()+"\n");
+            accesses=accesses.concat("En modo: "+accesos.get(i).getAccess()+"\n");
+        }
+        return accesses;
+    
+    }
+    
     private void create(String nombreDoc, String content){
-        int tamanioDocs = pDocs.getPlataformDocs().size();
-        Document createDoc = new Document(pDocs.getActiveUser(),tamanioDocs+1,nombreDoc,content);
-        pDocs.addDoc(createDoc);
+        int tamanioDocs = platform.getPlatformDocs().size();
+        Document createDoc = new Document(platform.getActiveUser(),tamanioDocs+1,nombreDoc,content);
+        platform.addDoc(createDoc);
     }
     public static boolean isNumeric(String strNum) {
         try {
@@ -448,6 +524,88 @@ public class Menu{
             return false;
         }
         return true;
+    }
+    
+    
+    public void printEditor(String editorToPrint){
+        System.out.print(editorToPrint);  
+    }
+    
+    public String editorToString(ParadigmaDocs platform){
+        if(platform.getActiveUser()==(null)){
+            String toReturn = " ";
+            int sizeDocs = platform.getPlatformDocs().size();
+            for(int i = 0;i<sizeDocs ; i++){
+               toReturn = toReturn.concat("ID doc = "+ platform.getPlatformDocs().get(i).getDocId()+"\n");
+               toReturn = toReturn.concat("ID doc version = "+ platform.getPlatformDocs().get(i).getDocIdVer()+"\n");
+               toReturn = toReturn.concat("Propietario = "+ platform.getPlatformDocs().get(i).getDocOwner()+"\n");
+               toReturn = toReturn.concat("Contenido = "+ platform.getPlatformDocs().get(i).getDocContent()+"\n");
+               toReturn = toReturn.concat("=================================================\n");
+                
+            }
+            
+            return toReturn;
+                
+        }
+        else{
+            System.out.println("Documentos . . . ");
+            String toReturn = " ";
+            int lenDocs = platform.getPlatformDocs().size();
+            for(int i = 0; i< lenDocs; i++){
+                if(platform.getPlatformDocs().get(i).getDocOwner().equals(platform.getActiveUser())){
+                    System.out.println(i+1+"<- id doc) nombre documento: "+platform.getPlatformDocs().get(i).getDocName());
+                }
+                if(platform.getPlatformDocs().get(i).isShare(platform.getActiveUser())){
+                    System.out.println("DOCUMENTO COMPARTIDO");
+                    System.out.println(i+1+"<- id doc) nombre documento: "+platform.getPlatformDocs().get(i).getDocName());
+                    if(platform.getPlatformDocs().get(i).isWritter(platform.getActiveUser())){
+                        System.out.println("En modo escritura.");
+                    }
+                    if(platform.getPlatformDocs().get(i).isReader(platform.getActiveUser())){
+                        System.out.println("En modo lector.");
+                    }
+                    if(platform.getPlatformDocs().get(i).isComment(platform.getActiveUser())){
+                        System.out.println("En modo comentario.");
+                    }
+                }
+
+            }
+            System.out.println("Seleccione id documento para ver contenido: ");
+            Scanner getDocToWatch = new Scanner(System.in);
+            String getDocStr = getDocToWatch.next();
+
+
+            while (isNumeric(getDocStr)==false){
+                System.out.println("Ingresa un numero!");
+                getDocStr = getDocToWatch.next();
+            }
+            int getDoc = Integer.parseInt(getDocStr);
+
+
+
+            try{
+                getDoc = getDoc -1;
+                if(platform.getPlatformDocs().get(getDoc).getDocOwner().equals(platform.getActiveUser())||platform.getPlatformDocs().get(getDoc).isShare(platform.getActiveUser())){
+                    toReturn = toReturn.concat("============================================================================\n");
+                    toReturn = toReturn.concat("Contenido: "+platform.getPlatformDocs().get(getDoc).getDocContent()+"\n");
+                    toReturn = toReturn.concat("Creado el: "+platform.getPlatformDocs().get(getDoc).getDocDate()+"\n");
+                    toReturn = toReturn.concat("ID del documento: "+platform.getPlatformDocs().get(getDoc).getDocId()+"\n");
+                    toReturn = toReturn.concat("ID de la version: "+platform.getPlatformDocs().get(getDoc).getDocIdVer()+"\n");
+                    toReturn = toReturn.concat(shareToString(platform.getPlatformDocs().get(getDoc).getDocShare())+"\n");
+                    toReturn = toReturn.concat("=============================================================================\n");
+
+                }
+                else{
+                     System.out.println("\nOpcion no valida!\n");
+                }
+
+            }catch (Exception e){
+                System.out.println("Documento invalido o entrada no valida!");
+            }
+                        
+            return toReturn;
+        }
+    
     }
     
 }
