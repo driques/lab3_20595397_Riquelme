@@ -214,14 +214,11 @@ public class ParadigmaDocs {
         if(this.docs.get(idText).getDocContent().contains(textToSearch)){
                     String textReplace = this.docs.get(idText).getDocContent();
                     String newText = textReplace.replaceAll(textToSearch, textToReplace);
-                    
                     Document docVer = new Document(this.docs.get(idText));
-                  
                     this.docs.get(idText).setContent(newText);
                     this.docs.get(idText).setIdVer(this.docs.get(idText).getDocIdVer()+1);
                     this.addDocVer(docVer);
                     return true;
-                    
                 }
         else{
            return false;
