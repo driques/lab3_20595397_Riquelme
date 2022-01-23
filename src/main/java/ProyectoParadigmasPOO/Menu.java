@@ -8,49 +8,53 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ *La clase menu busca organizar toda la logica con la que se debe lanzar la plataforma
+ * haciendo verificaciones, prints y recibiendo entradas.
  * @author driques
  */
-
-
-
-
-
 public class Menu{
+    //Atributos
     private ParadigmaDocs platform;
     Scanner inputInt = new Scanner(System.in);
     Scanner inputStr = new Scanner(System.in);
-       
+    /**
+     * Constructor del menu principal, se crea la plataforma donde se trabajara.
+     */   
     public Menu(){
         platform = new ParadigmaDocs();
     }
+    /**
+     * Metodo driver del menu en si, nos permite inicializar la plataforma
+     * e invocar los metodos correspodientes
+     */
     public void runMenu(){
+        //Iniciacion de datos test
         platform.register("driques", "123");
         platform.login("driques", "123");
-        create("doc 1 driques","content test");
-        create("otro doc test","este es otro test para driques");
-        create("Estoy aprendiendo Java", "Cree este documento porque estoy aprendiendo Java");
+        platform.create("doc 1 driques","content test");
+        platform.create("otro doc test","este es otro test para driques");
+        platform.create("Estoy aprendiendo Java", "Cree este documento porque estoy aprendiendo Java");
         platform.logout();
         
         
         platform.register("peter", "holaPeter");
         platform.login("peter", "holaPeter");
-        create("Test para peter", "Hola peterrrrr");
-        create("Este es otro test de peter","soy petar parkaaar");
-        create("ultimo texto","Tu peter del flow ya tu sae");
+        platform.create("Test para peter", "Hola peterrrrr");
+        platform.create("Este es otro test de peter","soy petar parkaaar");
+        platform.create("ultimo texto","Tu peter del flow ya tu sae");
         
         platform.logout();
         
         platform.register("americo", "amorir");
         platform.login("americo", "amorir");
-        create("Este es el embrujooo","A morirrrrrr");
-        create("Grupo alegriaaaaaa","No te sientas mal, amigo nada mas de la cervecitaaaa!!!!");
+        platform.create("Este es el embrujooo","A morirrrrrr");
+        platform.create("Grupo alegriaaaaaa","No te sientas mal, amigo nada mas de la cervecitaaaa!!!!");
         
         platform.logout();
         
         platform.register("user", "pass");
         platform.login("user", "pass");
-        create("Lorem ipsum","Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");
+        platform.create("Lorem ipsum","Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");
         
         platform.logout();
         String optionStr;
@@ -108,7 +112,11 @@ public class Menu{
     }
     
     
-    
+    /**
+     * En caso de que el usuario quiera loguearse, se invoca el case1, el cual tiene un submenu
+     * donde se almacena la logica de negocio, y la implementacion en per si de la plataforma como tal.
+     * @return boolean.
+     */
     private boolean case1(){
         System.out.println("---------LOGIN---------");
         System.out.println("Ingresa usuario: ");
@@ -122,7 +130,7 @@ public class Menu{
             System.out.println("---------LOGIN EXITOSO---------");
             System.out.println("---------ENTRANDO EN EL SISTEMA---------");
             do{
-                
+                //Inicializacion del menu
                 System.out.println("Usuario activo: "+platform.getActiveUser());
                 System.out.println("==OPCIONES==");
                 System.out.println("1.Crear un nuevo documento");
@@ -133,8 +141,9 @@ public class Menu{
                 System.out.println("6.Buscar en los documentos");
                 System.out.println("7.Visualizar documentos");
                 System.out.println("8.Buscar y reemplazar");
-                System.out.println("9.Cerrar sesion");
-                System.out.println("10.Cerrar programa");
+                System.out.println("9.Comentar un documento");
+                System.out.println("10.Cerrar sesion");
+                System.out.println("11.Cerrar programa");
                 
                 System.out.println("Introduza la opcion: ");
                 getOptionLogin = inputStr.next();
@@ -145,7 +154,9 @@ public class Menu{
                 int intOpt  = Integer.parseInt(getOptionLogin);
                 Scanner catchError = new Scanner(System.in);
                 switch(intOpt){
+                    //Caso 1 crear documento
                     case 1:
+                        System.out.println("=== Crear Documento ===");
                         Scanner inputName = new Scanner(System.in);
                         Scanner inputContent = new Scanner(System.in);
                         
@@ -155,15 +166,15 @@ public class Menu{
                         nameDoc = inputName.nextLine();
                         System.out.println("Ingresa contenido: ");
                         contentDoc = inputContent.nextLine();
-                        create(nameDoc,contentDoc);
+                        platform.create(nameDoc,contentDoc);
                         System.out.println("Documento creado con exito!");
                        
                        
                         
                         break;
-                           
+                     //Caso 2 compartir un documento
                     case 2:
-                        
+                        System.out.println("=== Compartir Documento ===");
                         //Scanner 
                         Scanner scanAccess = new Scanner(System.in);
                         Scanner scanIdShare = new Scanner(System.in);
@@ -228,10 +239,10 @@ public class Menu{
                             System.out.println("Ingresa un ID valido!");}
                       
                         break;
-                        
+                    //Agregar conteido 
                     case 3:
                         
-                        System.out.println("Agregando contenido . . . ");
+                        System.out.println("=== Agregar contenido Documento ===");
                         //Scanner
                         Scanner textToAdd = new Scanner(System.in);
                         Scanner inputDoc =  new Scanner(System.in);
@@ -280,9 +291,9 @@ public class Menu{
                         break;
                         
                         
-                        
+                    //Caso 4 hacer rollback
                     case 4:
-                        System.out.println("ROLLBACK . . . ");
+                        System.out.println("=== Rollback Documento ===");
                          //Scanner
                         Scanner inputRoll = new Scanner(System.in);                      
                         Scanner inputId = new Scanner(System.in);
@@ -343,10 +354,10 @@ public class Menu{
                         
                         
                         
-                        
+                    //Caso 5 revocar accesos.
                     case 5:
-                        System.out.println("RevokeAllAccess");
-                         //Scanner
+                        System.out.println("=== Revocar accesos Documento ===");
+                        //Scanner
                         Scanner idToRevoke = new Scanner(System.in);
                         System.out.println("Seleccione id documento para hacer el revoke: ");
                         String docIdToRevokeStr = idToRevoke.next();
@@ -375,9 +386,12 @@ public class Menu{
                         }
                         
                         break;
+                      
+                        
+                    //Caso 6 buscar en los documentos.
                         
                     case 6:
-                        System.out.println("Search");
+                        System.out.println("=== Buscar en Documentos ===");
                          //Scanner
                         Scanner stringContains = new Scanner(System.in);
                         System.out.println("Escriba el texto a buscar en los documentos: ");
@@ -400,13 +414,15 @@ public class Menu{
                         
                         
                         break;
+                        
+                    //Caso 7 imprimir por pantalla el editor.
                     case 7:
                         printEditor(editorToString(platform));
                         break;
-                        
+                    //Caso 8 buscar y reemplazar texto
                     case 8:
-                        System.out.println("Search and replace");
-                         //Scanner
+                        System.out.println("=== Buscar y reemplazar texto en Documento ===");
+                        //Scanner
                         Scanner toSearchId = new Scanner(System.in);
                         System.out.println("Escriba el id del documento: ");
                         String stringToSrch = toSearchId.nextLine();
@@ -428,36 +444,71 @@ public class Menu{
                         System.out.println("Escriba el texto a buscar en los documentos: ");
                         String textoReemplazar = toReplace.nextLine();
                         
-                        if(platform.searchAndReplace(searchId, textoContenido, textoReemplazar)){
+                        if((platform.getPlatformDocs().get(searchId).getDocOwner().equals(platform.getActiveUser())) || 
+                                    (platform.getPlatformDocs().get(searchId).isWritter(platform.getActiveUser()))){
+                            if(platform.searchAndReplace(searchId, textoContenido, textoReemplazar)){
                             System.out.println("Reemplazado con exito!");
-                        }else {
-                            System.out.println("Sin coincidencias");
+                            }else {
+                                System.out.println("Sin coincidencias");
                         }
+                        
+                        }
+                        
                        
-                        
-                        
-                        /*
-                        ArrayList<String> found = platform.search(platform.getActiveUser(),stringToSrch);
-                        
-                        int sizeFound = found.size();
-                        
-                        if(sizeFound>0){
-                            for(int i = 0;i<sizeFound;i++){
-                                
-                            }
-                        }else{
-                            System.out.println("No hay coincidencias");
-                        }*/
-                        
+                                               
                         
                         
                         break;
+                        
+                    //Caso 9 comentar documento.
                     case 9:
+                        System.out.println("=== Comentar Documento ===");
+                        Scanner scannerComment = new Scanner(System.in);
+                        Scanner scannerText = new Scanner (System.in);
+                        
+                        System.out.println("Ingresa id del documento: ");
+                        String stringIdComment = scannerComment.next();
+                        
+                        while (isNumeric(stringIdComment)==false){
+                            System.out.println("Ingresa un numero!");
+                            stringIdComment = scannerComment.next();
+                        }
+                        int idComment = Integer.parseInt(stringIdComment);
+                        
+                        System.out.println("Ingresa comentario:  ");
+                        String textToComment = scannerText.nextLine();
+                        
+                        idComment = idComment -1;
+                        
+                        
+                        //Falta realizar verif
+                        if((platform.getPlatformDocs().get(idComment).getDocOwner().equals(platform.getActiveUser())) || 
+                                    (platform.getPlatformDocs().get(idComment).isWritter(platform.getActiveUser())) || 
+                                (platform.getPlatformDocs().get(idComment).isComment(platform.getActiveUser()))){
+                            platform.comment(idComment,textToComment);
+                            System.out.println("Comentario realizado con exito: "+textToComment);
+                        
+                                               
+                        }
+                        else{
+                            System.out.println("No se pudo realizar el comentario . . . ");
+                        }
+                        
+                       
+                        break;
+                        
+                                   
+                        
+                    //Caso 10 cerrar sesion.
+                                
+                    case 10:
+                        System.out.println("=== Cerrando sesion ===");
                         platform.logout();
                         logout = true;
                         return false;
-                       
-                    case 10:
+                    //Caso 11 salir del programa.
+                    case 11:
+                        System.out.println("=== Saliendo del programa===");
                          System.out.println("Hasta pronto . . . ");
                         System.exit(0);
                         break;
@@ -469,6 +520,7 @@ public class Menu{
             return true;
             
         }
+        //Se verifica user y contrasenia
         else{
             System.out.println("---------ERROR EN EL USUARIO O CONTRASENIA---------");
             return false;
@@ -479,6 +531,11 @@ public class Menu{
     }
     
     
+    
+    /**
+     * Caso 2 en caso de que el usuario quiera registrarse.
+     * @return boolean dependiendo si se puede registrar o no.
+     */
     
     private boolean case2(){
         System.out.println("---------REGISTRO---------");
@@ -501,6 +558,11 @@ public class Menu{
     }
     
     
+   /**
+    * Nos permite transformar una lista de tipo Access a un string comprensible.
+    * @param accesos como la lista de accesos.
+    * @return el string leible.
+    */
     public String shareToString(ArrayList<Access> accesos){
         int sizeAccess = accesos.size();
         String accesses = "";
@@ -510,13 +572,32 @@ public class Menu{
         }
         return accesses;
     
+    
     }
     
-    private void create(String nombreDoc, String content){
-        int tamanioDocs = platform.getPlatformDocs().size();
-        Document createDoc = new Document(platform.getActiveUser(),tamanioDocs+1,nombreDoc,content);
-        platform.addDoc(createDoc);
+    /**
+     * Nos permite transformar una lista de tipo Comment a un string comprensible.
+     * @param comentarios como la lista de comentarios.
+     * @return el string leible.
+     */
+    public String commentToString(ArrayList<Comment> comentarios){
+        int sizeComments = comentarios.size();
+        String comments = "";
+        for(int i = 0;i<sizeComments;i++){
+            comments = comments.concat("Id comentario: "+comentarios.get(i).getIdComment()+"\n");
+            comments = comments.concat("Fecha creacion comentario: "+comentarios.get(i).getDateComment()+"\n");
+            comments = comments.concat("Creado por: "+comentarios.get(i).getOwnerComment()+"\n");
+            comments = comments.concat("Comentario: "+comentarios.get(i).getCommentContent()+"\n");           
+            comments = comments.concat("Pertenece al documento ID: "+Integer.toString(comentarios.get(i).getDocComment().getDocId())+"\n");
+         }
+        return comments;
     }
+    
+    /**
+     * Nos permite verificar si un valor string es un numero.
+     * @param strNum como el valor en string.
+     * @return booleano dependiendo si es un numero o no.
+     */
     public static boolean isNumeric(String strNum) {
         try {
             Double.parseDouble(strNum);
@@ -527,10 +608,22 @@ public class Menu{
     }
     
     
+    /**
+     * Imprime el string del editor
+     * @param editorToPrint como el string a imprimir
+     */
+    
     public void printEditor(String editorToPrint){
         System.out.print(editorToPrint);  
     }
     
+    
+    /**
+     * Nos permite transformar el editor en un string legible por el usuario, y cambia dependiendo si
+     * esta la sesion iniciada o no.
+     * @param platform como la plataforma a pasarla a string.
+     * @return el string.
+     */
     public String editorToString(ParadigmaDocs platform){
         if(platform.getActiveUser()==(null)){
             String toReturn = " ";
@@ -592,6 +685,7 @@ public class Menu{
                     toReturn = toReturn.concat("ID del documento: "+platform.getPlatformDocs().get(getDoc).getDocId()+"\n");
                     toReturn = toReturn.concat("ID de la version: "+platform.getPlatformDocs().get(getDoc).getDocIdVer()+"\n");
                     toReturn = toReturn.concat(shareToString(platform.getPlatformDocs().get(getDoc).getDocShare())+"\n");
+                    toReturn = toReturn.concat(commentToString(platform.getPlatformDocs().get(getDoc).getDocComment()));
                     toReturn = toReturn.concat("=============================================================================\n");
 
                 }

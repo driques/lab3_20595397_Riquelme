@@ -10,20 +10,20 @@ package ProyectoParadigmasPOO;
 import java.util.Date;
 
 /**
- *
+ *User va a representar a un usuario, con su id, username y contrasenia.
  * @author driques
  */
 public class User {
     // Representación
     // idUser,username, password, fecha de registro
-  
+    //Atributos
     private final int idUser;
     private final String username;
     private final String password;
     private Date date; // fecha de registro
         /** 
         *
-        * It is a constructor. 
+        * Este es el constructor, crea un usuario recibiendo su if, su username y su password.
         *
         * @param id  the id
         * @param userNameIn  the user name in
@@ -38,9 +38,10 @@ public class User {
        
     
     }
-        /** 
+        
+    /** 
      *
-     * Gets the identifier
+     * Get al id.
      *
      * @return the identifier
      */
@@ -50,7 +51,7 @@ public class User {
         return this.idUser;}
         /** 
      *
-     * Gets the username
+     * Get al nombre de usuario.
      *
      * @return the username
      */
@@ -58,7 +59,7 @@ public class User {
         return this.username;}
         /** 
      *
-     * Gets the password
+     * Get a la password.
      *
      * @return the password
      */
@@ -66,7 +67,7 @@ public class User {
         return this.password;}
         /** 
      *
-     * Gets the date
+     * Get a la fecha.
      *
      * @return the date
      */
