@@ -235,7 +235,13 @@ public class ParadigmaDocs {
         
     }
     
+    public void share(String userToShare,String typeAccess,int idInt ){
+        //Crear un objeto de tipo access
+        Access accesoDoc = new Access(userToShare,typeAccess);
+        this.getPlatformDocs().get(idInt).addShare(accesoDoc);
     
+    
+    }
     /**
      * Add nos permite agregar texto al final del documento.
      * @param idToAdd id del texto a agregar.
@@ -251,10 +257,27 @@ public class ParadigmaDocs {
         this.getPlatformDocs().get(idToAdd).setIdVer(newVersion);
         this.getPlatformDocs().get(idToAdd).setContent(addContent);
 
-
     
     }
   
+    
+    /**
+     * rollBack nos permite devolverse a una version anterior del documento.
+     * @param idDoc del doc.
+     * @param idVer de la version.
+     */
+    public void rollBack(int idDoc, int idVer){
+        Document lastDoc = new Document(this.getPlatformDocs().get(idDoc));
+      
+        this.addDocVer(lastDoc);
+
+        Document toRollback = this.searchByIDVer(idDoc, idVer);
+
+        this.removeDocVer(toRollback);
+
+        this.addDoc(toRollback, idDoc);
+    
+    }
    
     
     

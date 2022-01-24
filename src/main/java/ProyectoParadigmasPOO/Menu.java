@@ -228,9 +228,7 @@ public class Menu{
                                    
                             for(int i = 0;i<sizeShareUsers;i++){
                                 if(platform.isRegister(shareUsers[i])){
-                                    //Crear un objeto de tipo access
-                                    Access accesoDoc = new Access(shareUsers[i],typeAccess);
-                                    platform.getPlatformDocs().get(idInt).addShare(accesoDoc);
+                                    platform.share(shareUsers[i], typeAccess, idInt);
                                    
                                     System.out.println("Compartido con: "+shareUsers[i]+" con exito!");
                                     
@@ -331,15 +329,8 @@ public class Menu{
                             if(platform.getPlatformDocs().get(docIdToRollback).getDocOwner().equals(platform.getActiveUser()) &&
                                     maxVerId>=docVerToRollback){
                                 
-                                Document lastDoc = new Document(platform.getPlatformDocs().get(docIdToRollback));
-                               
-                                platform.addDocVer(lastDoc);
-                              
-                                Document toRollback = platform.searchByIDVer(docIdToRollback, docVerToRollback);
-                                
-                                platform.removeDocVer(toRollback);
-                               
-                                platform.addDoc(toRollback, docIdToRollback);
+                              platform.rollBack(docIdToRollback, docVerToRollback);
+                              System.out.println("Rollback con exito!");
                                
                             }
                             else{
