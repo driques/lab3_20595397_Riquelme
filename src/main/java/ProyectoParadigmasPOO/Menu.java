@@ -91,12 +91,12 @@ public class Menu{
             switch(option){
                 case 1:
                        System.out.println("Iniciando sesion . . .");
-                       case1();
+                       loginMenu();
                        break;
 
                 case 2:
                        System.out.println("Registrarse . . ."); 
-                       case2();
+                       registerMenu();
                        break;
                 case 3:
                     System.out.println("Hasta pronto . . . ");
@@ -119,11 +119,11 @@ public class Menu{
     
     
     /**
-     * En caso de que el usuario quiera loguearse, se invoca el case1, el cual tiene un submenu
+     * En caso de que el usuario quiera loguearse, se invoca el loginMenu, el cual tiene un submenu
      * donde se almacena la logica de negocio, y la implementacion en per si de la plataforma como tal.
      * @return boolean.
      */
-    private boolean case1(){
+    private boolean loginMenu(){
         System.out.println("---------LOGIN---------");
         System.out.println("Ingresa usuario: ");
         String loginUser = inputStr.next();
@@ -545,7 +545,7 @@ public class Menu{
      * @return boolean dependiendo si se puede registrar o no.
      */
     
-    private boolean case2(){
+    private boolean registerMenu(){
         System.out.println("---------REGISTRO---------");
         System.out.println("Ingresa nuevo usuario: ");
         String registerUser = inputStr.next();

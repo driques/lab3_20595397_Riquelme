@@ -12,8 +12,8 @@ package ProyectoParadigmasPOO;
  */
 public class Access {
     //Atributos
-    String user;
-    String access;
+    private String user;
+    private String access;
     /**
      * Constructor de Access, busca crear un objeto con los 
      * siguientes parametros
