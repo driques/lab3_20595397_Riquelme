@@ -276,15 +276,9 @@ public class Menu{
                                 String toAdd = textToAdd.nextLine();
                                 
                                 
-                                Document lastDoc = new Document(platform.getPlatformDocs().get(getIdDoc));
-                                platform.addDocVer(lastDoc);
-                                
-                                String addContent = platform.getPlatformDocs().get(getIdDoc).getDocContent() + toAdd;
-                                int newVersion=  platform.getPlatformDocs().get(getIdDoc).getDocIdVer() + 1;
-                                
-                                platform.getPlatformDocs().get(getIdDoc).setIdVer(newVersion);
-                                platform.getPlatformDocs().get(getIdDoc).setContent(addContent);
+                                platform.add(getIdDoc,toAdd);
 
+                               
                       
                             }
                             else{

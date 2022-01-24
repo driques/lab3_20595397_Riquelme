@@ -234,6 +234,30 @@ public class ParadigmaDocs {
         return maxVer;
         
     }
+    
+    
+    /**
+     * Add nos permite agregar texto al final del documento.
+     * @param idToAdd id del texto a agregar.
+     * @param textToAdd texto a agregar.
+     */
+    public void add(int idToAdd, String textToAdd){
+        Document lastDoc = new Document(this.getPlatformDocs().get(idToAdd));
+        this.addDocVer(lastDoc);
+
+        String addContent = this.getPlatformDocs().get(idToAdd).getDocContent() + textToAdd;
+        int newVersion=  this.getPlatformDocs().get(idToAdd).getDocIdVer() + 1;
+
+        this.getPlatformDocs().get(idToAdd).setIdVer(newVersion);
+        this.getPlatformDocs().get(idToAdd).setContent(addContent);
+
+
+    
+    }
+  
+   
+    
+    
     /**
      * Nos permite buscar un documento en especifico a traves del id de la version de este.
      * @param idDoc como el id del documento.
